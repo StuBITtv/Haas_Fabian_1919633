@@ -10,7 +10,7 @@ int main() {
     Complex first = askForNumber("first");
     printf("\n");
 
-    char operation = askForOperation();
+    Operation operation = askForOperation();
     printf("\n");
 
     Complex second = askForNumber("second");
