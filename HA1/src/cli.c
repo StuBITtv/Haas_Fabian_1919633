@@ -3,6 +3,7 @@
 //
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "cli.h"
 
 Complex askForNumber(const char *position) {
@@ -38,3 +39,25 @@ Operation askForOperation() {
         printf("\nSupported operations are '+', '-', '*', and '/', instead got \"%s\".\n\n", input);
     }
 }
+
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "cert-err34-c"
+Format askForFormat() {
+    char input[128];
+
+    while (1) {
+        printf("In which format do you want to display the result?\n"
+               "[1] Rectangular: a+bi\n"
+               "[2] Exponential: r*e^(i*Theta)\n"
+               "[3]       Polar: r*(cos(Theta)+i*sin(Theta))\n"
+        );
+        scanf("%s", input);
+
+        int choice = atoi(input);
+
+        if(choice >= FORM_RECTANGULAR && choice <= FORM_EXPONENTIAL) return choice;
+
+        printf("\nExpected a whole number between 1 and 3, instead got \"%s\"\n\n", input);
+    }
+}
+#pragma clang diagnostic pop
