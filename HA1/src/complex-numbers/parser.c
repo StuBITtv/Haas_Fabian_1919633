@@ -34,6 +34,11 @@ int validComplexNumber(const char *input) {
         unsigned isOperation = charIsOperation(input[i]);
         operationCount += isOperation;
 
+        if(isOperation && digitCount != 0 && !hasSecondPart) {
+            hasSecondPart = 1;
+            digitCount = 0;
+        }
+
         if((operationCount > 1 && digitCount == 0) || operationCount > 2) {
             return 0;
         }
