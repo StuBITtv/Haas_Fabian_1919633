@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <string.h>
 #include "cli.h"
 #include "parser.h"
 
@@ -107,8 +108,30 @@ char *complexToString(Format format, Complex number) {
         return complexToRectangular(number);
     }
 
-    char *empty = malloc(1);
-    empty[0] = '\0';
+    double r = sqrt(pow(number.real, 2) + pow(number.imaginary, 2));
+    double theta = 0;
 
-    return empty;
+    double direction = 1 - (2 * (number.imaginary <= 0));
+
+    if (number.real == 0 && number.imaginary != 0) {
+        theta = direction * M_PI / 2;
+    } else if (number.real < 0) {
+        theta = direction * M_PI + atan(number.imaginary / number.real);
+    } else if (number.real > 0) {
+        theta = atan(number.imaginary / number.real);
+        theta = theta ? theta : M_PI;
+    }
+
+    char pattern[22];
+    if (theta || r) {
+        strcpy(pattern, format == FORM_POLAR ? "%f*(cos(%f)+i*sin(%f)" : "%f*e^(%fi)");
+    } else {
+        strcpy(pattern, "%f");
+    }
+
+    size_t patternSize = snprintf(NULL, 0, pattern, r, theta, theta);
+    char *result = malloc(patternSize + 1);
+    sprintf(result, pattern, r, theta, theta);
+
+    return result;
 }
