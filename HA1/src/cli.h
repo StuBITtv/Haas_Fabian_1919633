@@ -7,8 +7,15 @@
 
 #include "complex-numbers/complex.h"
 
+typedef enum OPERATION {
+    ADDITION = '+',
+    SUBTRACTION = '-',
+    MULTIPLICATION = '*',
+    DIVISION = '/'
+} Operation;
+
 Complex askForNumber(const char *position);
 
-char askForOperation();
+Operation askForOperation();
 
 #endif //C_COURSE_CLI_H

@@ -20,7 +20,7 @@ Complex askForNumber(const char *position) {
     return parseComplexNumber(input);
 }
 
-char askForOperation() {
+Operation askForOperation() {
     char input[128];
 
     while (1) {
