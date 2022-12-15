@@ -5,7 +5,7 @@
 #ifndef C_COURSE_PARSER_H
 #define C_COURSE_PARSER_H
 
-#include "complex-number.h"
+#include "../complex-numbers/complex.h"
 
 int validComplexNumber(const char *input);
 

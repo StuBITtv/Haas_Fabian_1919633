@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include "cli.h"
+#include "parser.h"
 
 Complex askForNumber(const char *position) {
     char input[512];
@@ -43,6 +44,7 @@ Operation askForOperation() {
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "cert-err34-c"
+
 Format askForFormat() {
     char input[128];
 
@@ -61,6 +63,7 @@ Format askForFormat() {
         printf("\nExpected a whole number between 1 and 3, instead got \"%s\"\n\n", input);
     }
 }
+
 #pragma clang diagnostic pop
 
 char *complexToRectangular(Complex number) {
@@ -86,12 +89,14 @@ char *complexToRectangular(Complex number) {
     }
 
     if (number.imaginary) {
+        double imaginary = number.real ? fabs(number.imaginary) : number.imaginary;
+
         output = realloc(
                 output,
-                outputSize + snprintf(NULL, 0, "%fi", fabs(number.imaginary))
+                outputSize + snprintf(NULL, 0, "%fi", imaginary)
         );
 
-        sprintf(&output[outputSize - 1], "%fi", fabs(number.imaginary));
+        sprintf(&output[outputSize - 1], "%fi", imaginary);
     }
 
     return output;

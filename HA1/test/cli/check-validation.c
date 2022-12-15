@@ -3,7 +3,7 @@
 //
 
 #include "check-validation.h"
-#include "../src/complex-numbers/complex.h"
+#include "../../src/cli/parser.h"
 
 #define isValid(X) ck_assert_int_ne(X, 0)
 #define isInvalid(X) ck_assert_int_eq(X, 0)

@@ -5,7 +5,7 @@
 #ifndef C_COURSE_CLI_H
 #define C_COURSE_CLI_H
 
-#include "complex-numbers/complex.h"
+#include "../complex-numbers/complex.h"
 
 typedef enum OPERATION {
     ADDITION = '+',

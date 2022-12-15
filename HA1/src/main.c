@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <malloc.h>
 #include "complex-numbers/complex.h"
-#include "cli.h"
+#include "cli/cli.h"
 
 int main() {
     Complex first = askForNumber("first");
