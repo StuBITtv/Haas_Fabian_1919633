@@ -54,43 +54,93 @@ START_TEST(invalid_unexpected_imaginary_endfix) {
 
 START_TEST(valid_only_postiv_real_part) {
     isValid(validComplexNumber("5.0"));
-} END_TEST
+}
+
+END_TEST
 
 START_TEST(valid_only_negativ_real_part) {
     isValid(validComplexNumber("-5.0"));
-} END_TEST
+}
+
+END_TEST
+
+START_TEST(valid_only_positiv_imaginary_part_single_i) {
+    isValid(validComplexNumber("i"));
+}
+
+END_TEST
+
+START_TEST(valid_only_negativ_imaginary_part_single_i) {
+    isValid(validComplexNumber("-i"));
+}
+
+END_TEST
 
 START_TEST(valid_only_postiv_imaginary_part) {
     isValid(validComplexNumber("5.0i"));
-} END_TEST
+}
+
+END_TEST
 
 START_TEST(valid_only_negativ_imaginary_part) {
     isValid(validComplexNumber("-5.0i"));
-} END_TEST
+}
+
+END_TEST
 
 START_TEST(valid_all_positiv_parts) {
     isValid(validComplexNumber("5.0 + 6i"));
-} END_TEST
+}
+
+END_TEST
+
+START_TEST(valid_all_positiv_parts_single_i) {
+    isValid(validComplexNumber("5.0 + i"));
+}
+
+END_TEST
 
 START_TEST(valid_negativ_real_part) {
     isValid(validComplexNumber("-5.0 + 6i"));
-} END_TEST
+}
+
+END_TEST
 
 START_TEST(valid_negativ_imaginary_part) {
     isValid(validComplexNumber("5.0 + -6i"));
-} END_TEST
+}
+
+END_TEST
+
+START_TEST(valid_negativ_imaginary_part_single_i) {
+    isValid(validComplexNumber("5.0 + -i"));
+}
+
+END_TEST
 
 START_TEST(valid_subtrated_imaginary_part) {
     isValid(validComplexNumber("5.0 - 6i"));
-} END_TEST
+}
+
+END_TEST
+
+START_TEST(valid_subtrated_imaginary_part_single_i) {
+    isValid(validComplexNumber("5.0 - i"));
+}
+
+END_TEST
 
 START_TEST(valid_all_negativ_parts) {
     isValid(validComplexNumber("-5.0 + -6i"));
-} END_TEST
+}
+
+END_TEST
 
 START_TEST(valid_negativ_real_part_subtrated_imaginary_part) {
     isValid(validComplexNumber("-5.0 - 6i"));
-} END_TEST
+}
+
+END_TEST
 
 START_TEST(valid_untrimmed_parts) {
     isValid(validComplexNumber("      5.0    -   6   i   "));
@@ -116,12 +166,17 @@ Suite *numberValidationSuite() {
     tcase_add_test(testCase, invalid_trimmed_unexpected_imaginary_part);
     tcase_add_test(testCase, valid_only_postiv_real_part);
     tcase_add_test(testCase, valid_only_negativ_real_part);
+    tcase_add_test(testCase, valid_only_positiv_imaginary_part_single_i);
+    tcase_add_test(testCase, valid_only_negativ_imaginary_part_single_i);
     tcase_add_test(testCase, valid_only_postiv_imaginary_part);
     tcase_add_test(testCase, valid_only_negativ_imaginary_part);
     tcase_add_test(testCase, valid_all_positiv_parts);
+    tcase_add_test(testCase, valid_all_positiv_parts_single_i);
     tcase_add_test(testCase, valid_negativ_real_part);
     tcase_add_test(testCase, valid_negativ_imaginary_part);
+    tcase_add_test(testCase, valid_negativ_imaginary_part_single_i);
     tcase_add_test(testCase, valid_subtrated_imaginary_part);
+    tcase_add_test(testCase, valid_subtrated_imaginary_part_single_i);
     tcase_add_test(testCase, valid_all_negativ_parts);
     tcase_add_test(testCase, valid_negativ_real_part_subtrated_imaginary_part);
     tcase_add_test(testCase, valid_untrimmed_parts);
