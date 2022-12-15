@@ -7,6 +7,5 @@
 
 #include "complex-number.h"
 #include "operations.h"
-#include "parser.h"
 
 #endif //C_COURSE_COMPLEX_H

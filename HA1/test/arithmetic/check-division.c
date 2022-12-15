@@ -2,10 +2,10 @@
 // Created by fhs on 13.12.2022.
 //
 
-#include "complex-getter.h"
+#include "../complex-getter.h"
 #include "check-division.h"
 #include "double-comparison.h"
-#include "../src/complex-numbers/complex.h"
+#include "../../src/complex-numbers/complex.h"
 
 START_TEST(all_parts_with_only_real_part) {
     Complex result = division(getComplex(1.2, 3.4), getComplex(5.6, 0));
