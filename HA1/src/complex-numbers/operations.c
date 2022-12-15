@@ -18,8 +18,10 @@ Complex subtraction(Complex a, Complex b) {
 }
 
 Complex multiplication(Complex a, Complex b) {
-    Complex result;
-    return result;
+    return (Complex) {
+            a.real * b.real - a.imaginary * b.imaginary,
+            a.real * b.imaginary + a.imaginary * b.real
+    };
 }
 
 Complex division(Complex a, Complex b) {
