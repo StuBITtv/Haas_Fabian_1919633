@@ -25,7 +25,13 @@ Complex multiplication(Complex a, Complex b) {
 }
 
 Complex division(Complex a, Complex b) {
-    Complex result;
+    Complex conjugate = {b.real, -1 * b.imaginary};
+    double divider = multiplication(b, conjugate).real;
+
+    Complex result = multiplication(a, conjugate);
+    result.real /= divider;
+    result.imaginary /= divider;
+
     return result;
 }
 
