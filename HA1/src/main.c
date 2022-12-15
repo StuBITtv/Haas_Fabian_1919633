@@ -3,7 +3,7 @@
 //
 
 #include <stdio.h>
-#include <math.h>
+#include <malloc.h>
 #include "complex-numbers/complex.h"
 #include "cli.h"
 
@@ -35,18 +35,10 @@ int main() {
             break;
     }
 
-    printf("The result is\n");
-    if (result.real || !result.real && !result.imaginary) {
-        printf("%f", result.real);
-    }
+    char *output = complexToString(format, result);
 
-    if (result.real && result.imaginary) {
-        printf(result.imaginary > 0 ? " + " : " - ");
-    }
+    printf("\nThe result is\n%s\n", output);
 
-    if(result.imaginary) {
-        printf("%fi", fabs(result.imaginary));
-    }
-
+    free(output);
     return 0;
 }
