@@ -17,6 +17,8 @@ int main() {
     Complex second = askForNumber("second");
     printf("\n");
 
+    Format format = askForFormat();
+
     Complex result;
     switch (operation) {
         case ADDITION:

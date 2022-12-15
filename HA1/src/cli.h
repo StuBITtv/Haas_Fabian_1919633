@@ -14,8 +14,16 @@ typedef enum OPERATION {
     DIVISION = '/'
 } Operation;
 
+typedef enum FORMAT {
+    FORM_RECTANGULAR = 1,
+    FORM_EXPONENTIAL = 2,
+    FORM_POLAR = 3,
+} Format;
+
 Complex askForNumber(const char *position);
 
 Operation askForOperation();
+
+Format askForFormat();
 
 #endif //C_COURSE_CLI_H
