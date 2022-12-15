@@ -5,7 +5,7 @@
 #include "complex-getter.h"
 #include "check-subtraction.h"
 #include "double-comparison.h"
-#include "../src/complex-numbers/operations.h"
+#include "../src/complex-numbers/complex.h"
 
 START_TEST(with_all_positiv_parts) {
     Complex result = subtraction(getComplex(1.2, 3.4), getComplex(5.6, 7.8));

@@ -5,7 +5,7 @@
 #include "complex-getter.h"
 #include "check-multiplication.h"
 #include "double-comparison.h"
-#include "../src/complex-numbers/operations.h"
+#include "../src/complex-numbers/complex.h"
 
 START_TEST(with_only_real_part) {
     Complex result = multiplication(getComplex(1.2, 0), getComplex(5.6, 7.8));
