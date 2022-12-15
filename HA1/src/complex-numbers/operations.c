@@ -4,13 +4,17 @@
 #include "operations.h"
 
 Complex addition(Complex a, Complex b) {
-    Complex result;
-    return result;
+    return (Complex) {
+            a.real + b.real,
+            a.imaginary + b.imaginary
+    };
 }
 
 Complex subtraction(Complex a, Complex b) {
-    Complex result;
-    return result;
+    return (Complex) {
+            a.real - b.real,
+            a.imaginary - b.imaginary
+    };
 }
 
 Complex multiplication(Complex a, Complex b) {
