@@ -3,7 +3,7 @@
 //
 
 #include "check-parser.h"
-#include "../src/complex-numbers/parser.h"
+#include "../src/complex-numbers/complex.h"
 
 void parserTest(char *input, double real, double imaginary) {
     Complex result = parseComplexNumber(input);
