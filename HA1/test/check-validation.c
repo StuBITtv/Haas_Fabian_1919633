@@ -40,6 +40,14 @@ START_TEST(invalid_unexpected_imaginary_part) {
     isInvalid(validComplexNumber("5i + 5i"));
 } END_TEST
 
+START_TEST(invalid_trimmed_unexpected_real_part) {
+    isInvalid(validComplexNumber("5+5"));
+} END_TEST
+
+START_TEST(invalid_trimmed_unexpected_imaginary_part) {
+    isInvalid(validComplexNumber("5i+5i"));
+} END_TEST
+
 START_TEST(invalid_unexpected_imaginary_endfix) {
     isInvalid(validComplexNumber("5 + 6.0ii"));
 }
@@ -104,6 +112,8 @@ Suite *numberValidationSuite() {
     tcase_add_test(testCase, invalid_unexpected_operation_inbetween);
     tcase_add_test(testCase, invalid_unexpected_real_part);
     tcase_add_test(testCase, invalid_unexpected_imaginary_part);
+    tcase_add_test(testCase, invalid_trimmed_unexpected_real_part);
+    tcase_add_test(testCase, invalid_trimmed_unexpected_imaginary_part);
     tcase_add_test(testCase, valid_only_postiv_real_part);
     tcase_add_test(testCase, valid_only_negativ_real_part);
     tcase_add_test(testCase, valid_only_postiv_imaginary_part);
