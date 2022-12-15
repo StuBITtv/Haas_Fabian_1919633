@@ -3,38 +3,21 @@
 //
 
 #include <malloc.h>
-#include <stdio.h>
 #include "check-rectangular-form-string.h"
 #include "check-complex-string.h"
 #include "../complex-getter.h"
+#include "string-expectation.h"
 
-void stringTest(Complex number, const char *outputFormat) {
-    char *output = malloc(strlen(outputFormat) + 1);
-    strcpy(output, outputFormat);
-
-    char *real = strstr(output, "%r");
-    char *imaginary = strstr(output, "%i");
-
-    if (real != NULL) *(real + 1) = 'f';
-    if (imaginary != NULL) *(imaginary + 1) = 'f';
-
-    double first = number.real, second = number.imaginary;
-    if (!real || imaginary && imaginary < real) {
-        first = number.imaginary;
-        second = number.real;
-    }
-
-    first = fabs(first);
-    second = fabs(second);
-
-    char *expected = malloc(snprintf(NULL, 0, output, first, second) + 1);
-
-    sprintf(expected, output, first, second);
+static void stringTest(Complex number, const char *format) {
+    char *expected = getExpectedString(
+            'r', 'i',
+            fabs(number.real), fabs(number.imaginary),
+            format
+    );
 
     ck_assert_str_eq(expected, complexToString(FORM_RECTANGULAR, number));
 
     free(expected);
-    free(output);
 }
 
 START_TEST(only_zero) {
