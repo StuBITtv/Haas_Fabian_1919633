@@ -19,7 +19,7 @@ int validComplexNumber(const char *input) {
 
     for (size_t i = 0; i < strlen(input); ++i) {
         if (input[i] == ' ') {
-            if(digitCount != 0 && !hasSecondPart) {
+            if (digitCount != 0 && !hasSecondPart) {
                 hasSecondPart = 1;
                 operationCount = 0;
             }
@@ -34,12 +34,12 @@ int validComplexNumber(const char *input) {
         unsigned isOperation = charIsOperation(input[i]);
         operationCount += isOperation;
 
-        if(isOperation && digitCount != 0 && !hasSecondPart) {
+        if (isOperation && digitCount != 0 && !hasSecondPart) {
             hasSecondPart = 1;
             digitCount = 0;
         }
 
-        if((operationCount > 1 && digitCount == 0) || operationCount > 2) {
+        if ((operationCount > 1 && digitCount == 0) || operationCount > 2) {
             return 0;
         }
 
@@ -53,11 +53,11 @@ int validComplexNumber(const char *input) {
             return 0;
         }
 
-        if(hasImaginary > 1) {
+        if (hasImaginary > 1) {
             return 0;
         }
 
-        if(hasDot > 1) {
+        if (hasDot > 1) {
             return 0;
         }
     }
@@ -67,28 +67,39 @@ int validComplexNumber(const char *input) {
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "cert-err34-c"
+
 void setNumberPart(const char *input, Complex *number) {
     size_t last = strlen(input) - 1;
 
-    if(input[last] == 'i') {
+    if (input[last] == 'i') {
         char *trimmed = malloc(strlen(input) + 1);
         strcpy(trimmed, input);
 
         trimmed[last] = '\0';
-        number->imaginary = atof(trimmed);
+
+        if (strlen(trimmed) == 0) {
+            number->imaginary = 1;
+        } else if (strlen(trimmed) == 1 && trimmed[0] == '+') {
+            number->imaginary = 1;
+        } else if (strlen(trimmed) == 1 && trimmed[0] == '-') {
+            number->imaginary = -1;
+        } else {
+            number->imaginary = atof(trimmed);
+        }
 
         free(trimmed);
     } else {
         number->real = atof(input);
     }
 }
+
 #pragma clang diagnostic pop
 
 Complex parseComplexNumber(const char *input) {
     char *trimmed = malloc(strlen(input) + 1);
 
     size_t pos = 0;
-    for(size_t i = 0; i < strlen(input); ++i) {
+    for (size_t i = 0; i < strlen(input); ++i) {
         if (input[i] == ' ') {
             continue;
         }
@@ -100,15 +111,15 @@ Complex parseComplexNumber(const char *input) {
     trimmed[pos] = '\0';
 
     Complex result = {0, 0};
-    for(size_t i = strlen(trimmed) - 1; i != 0; --i) {
+    for (size_t i = strlen(trimmed) - 1; i != 0; --i) {
         if (!charIsOperation(trimmed[i])) {
             continue;
         }
 
         setNumberPart(&trimmed[i], &result);
 
-        if(charIsOperation(trimmed[i - 1])) {
-            if(trimmed[i - 1] == '-') {
+        if (charIsOperation(trimmed[i - 1])) {
+            if (trimmed[i - 1] == '-') {
                 result.real *= -1;
                 result.imaginary *= -1;
             }
