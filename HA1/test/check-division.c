@@ -5,7 +5,7 @@
 #include "complex-getter.h"
 #include "check-division.h"
 #include "double-comparison.h"
-#include "../src/complex-numbers/operations.h"
+#include "../src/complex-numbers/complex.h"
 
 START_TEST(all_parts_with_only_real_part) {
     Complex result = division(getComplex(1.2, 3.4), getComplex(5.6, 0));
