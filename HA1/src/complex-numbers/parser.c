@@ -10,7 +10,7 @@ unsigned charIsOperation(char c) {
     return c == '+' || c == '-';
 }
 
-int validComplexNumber(char *input) {
+int validComplexNumber(const char *input) {
     unsigned hasImaginary = 0;
     unsigned hasDot = 0;
     unsigned operationCount = 0;
@@ -62,19 +62,24 @@ int validComplexNumber(char *input) {
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "cert-err34-c"
-void setNumberPart(char *numberString, Complex *number) {
-    size_t last = strlen(numberString) - 1;
+void setNumberPart(const char *input, Complex *number) {
+    size_t last = strlen(input) - 1;
 
-    if(numberString[last] == 'i') {
-        numberString[last] = '\0';
-        number->imaginary = atof(numberString);
+    if(input[last] == 'i') {
+        char *trimmed = malloc(strlen(input) + 1);
+        strcpy(trimmed, input);
+
+        trimmed[last] = '\0';
+        number->imaginary = atof(trimmed);
+
+        free(trimmed);
     } else {
-        number->real = atof(numberString);
+        number->real = atof(input);
     }
 }
 #pragma clang diagnostic pop
 
-Complex parseComplexNumber(char *input) {
+Complex parseComplexNumber(const char *input) {
     char *trimmed = malloc(strlen(input));
 
     size_t pos = 0;
