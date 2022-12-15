@@ -7,8 +7,8 @@
 
 #include "complex-number.h"
 
-int validComplexNumber(char *input);
+int validComplexNumber(const char *input);
 
-Complex parseComplexNumber(char *input);
+Complex parseComplexNumber(const char *input);
 
 #endif //C_COURSE_PARSER_H
