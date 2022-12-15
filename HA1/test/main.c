@@ -9,6 +9,7 @@
 #include "check-subtraction.h"
 #include "check-multiplication.h"
 #include "check-division.h"
+#include "check-validation.h"
 
 int runSuite(Suite *suite) {
     SRunner *runner = srunner_create(suite);
@@ -27,7 +28,8 @@ int main() {
             additionSuite(),
             subtractionSuite(),
             multiplicationSuite(),
-            divisionSuite()
+            divisionSuite(),
+            numberValidationSuite()
     };
 
     int result = EXIT_SUCCESS;
