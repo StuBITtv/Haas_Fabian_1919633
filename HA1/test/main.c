@@ -10,6 +10,7 @@
 #include "check-multiplication.h"
 #include "check-division.h"
 #include "check-validation.h"
+#include "check-parser.h"
 
 int runSuite(Suite *suite) {
     SRunner *runner = srunner_create(suite);
@@ -29,7 +30,8 @@ int main() {
             subtractionSuite(),
             multiplicationSuite(),
             divisionSuite(),
-            numberValidationSuite()
+            numberValidationSuite(),
+            parserSuite()
     };
 
     int result = EXIT_SUCCESS;
