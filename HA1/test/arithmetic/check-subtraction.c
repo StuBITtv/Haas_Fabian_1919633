@@ -2,10 +2,10 @@
 // Created by fhs on 13.12.2022.
 //
 
-#include "complex-getter.h"
+#include "../complex-getter.h"
 #include "check-subtraction.h"
 #include "double-comparison.h"
-#include "../src/complex-numbers/complex.h"
+#include "../../src/complex-numbers/complex.h"
 
 START_TEST(with_all_positiv_parts) {
     Complex result = subtraction(getComplex(1.2, 3.4), getComplex(5.6, 7.8));

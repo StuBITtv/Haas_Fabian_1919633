@@ -85,7 +85,7 @@ void setNumberPart(const char *input, Complex *number) {
 #pragma clang diagnostic pop
 
 Complex parseComplexNumber(const char *input) {
-    char *trimmed = malloc(strlen(input));
+    char *trimmed = malloc(strlen(input) + 1);
 
     size_t pos = 0;
     for(size_t i = 0; i < strlen(input); ++i) {

@@ -3,9 +3,10 @@
 //
 
 #include "check-parser.h"
-#include "../src/complex-numbers/complex.h"
+#include "../../src/complex-numbers/complex.h"
+#include "../../src/cli/parser.h"
 
-void parserTest(char *input, double real, double imaginary) {
+void parserTest(const char *input, double real, double imaginary) {
     Complex result = parseComplexNumber(input);
 
     ck_assert_double_eq(result.real, real);
@@ -62,7 +63,7 @@ START_TEST(flipped_parts) {
 
 Suite *parserSuite() {
     Suite *suite = suite_create("Parses complex number");
-    TCase *testCase = tcase_create("Core");
+    TCase *testCase = tcase_create("Parser");
 
     tcase_add_test(testCase, only_postiv_real_part);
     tcase_add_test(testCase, only_negativ_real_part);

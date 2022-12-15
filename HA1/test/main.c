@@ -5,12 +5,13 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "check.h"
-#include "check-addition.h"
-#include "check-subtraction.h"
-#include "check-multiplication.h"
-#include "check-division.h"
-#include "check-validation.h"
-#include "check-parser.h"
+#include "arithmetic/check-addition.h"
+#include "arithmetic/check-subtraction.h"
+#include "arithmetic/check-multiplication.h"
+#include "arithmetic/check-division.h"
+#include "cli/check-validation.h"
+#include "cli/check-parser.h"
+#include "cli/check-complex-string.h"
 
 int runSuite(Suite *suite) {
     SRunner *runner = srunner_create(suite);
@@ -31,7 +32,8 @@ int main() {
             multiplicationSuite(),
             divisionSuite(),
             numberValidationSuite(),
-            parserSuite()
+            parserSuite(),
+            complexNumberStringSuite()
     };
 
     int result = EXIT_SUCCESS;
