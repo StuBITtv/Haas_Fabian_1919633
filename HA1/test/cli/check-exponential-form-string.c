@@ -3,12 +3,12 @@
 //
 
 #include <malloc.h>
-#include "check-polar-form-string.h"
-#include "../complex-getter.h"
 #include "string-expectation.h"
+#include "check-exponential-form-string.h"
+#include "../complex-getter.h"
 #include "../../src/cli/cli.h"
 
-#define FORMAT "%r*(cos(%t)+i*sin(%t)"
+#define FORMAT "%r*e^(%ti)"
 
 static void stringTest(Complex number, double r, double t, const char *format) {
     char *expected = getExpectedString(
@@ -17,7 +17,7 @@ static void stringTest(Complex number, double r, double t, const char *format) {
             format
     );
 
-    ck_assert_str_eq(expected, complexToString(FORM_POLAR, number));
+    ck_assert_str_eq(expected, complexToString(FORM_EXPONENTIAL, number));
 
     free(expected);
 }
@@ -41,7 +41,7 @@ START_TEST(only_negativ_real_part) {
 END_TEST
 
 START_TEST(only_positiv_imaginary_part) {
-    stringTest(getComplex(0, 3.4), 3.4, M_PI / 2, "%r*(cos(%t)+i*sin(%t)");
+    stringTest(getComplex(0, 3.4), 3.4, M_PI / 2, FORMAT);
 }
 
 END_TEST
@@ -92,8 +92,8 @@ START_TEST(negativ_real_part_positiv_imaginary_part) {
 
 END_TEST
 
-TCase *polarFormStringCase() {
-    TCase *testCase = tcase_create("Polar");
+TCase *exponentialFormStringCase() {
+    TCase *testCase = tcase_create("Exponential");
 
     tcase_add_test(testCase, only_zero);
     tcase_add_test(testCase, only_positiv_real_part);
