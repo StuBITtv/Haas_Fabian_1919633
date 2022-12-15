@@ -4,6 +4,7 @@
 
 #include "complex-getter.h"
 #include "check-division.h"
+#include "double-comparison.h"
 #include "../src/complex-numbers/operations.h"
 
 START_TEST(all_parts_with_only_real_part) {
@@ -37,36 +38,36 @@ START_TEST(only_imaginary_part_with_all_parts) {
 START_TEST(with_all_positiv_parts) {
     Complex result = division(getComplex(1.2, 3.4), getComplex(5.6, 7.8));
 
-    ck_assert_double_eq(result.real, 0.3605);
-    ck_assert_double_eq(result.imaginary, 0.105);
+    isSimilar(result.real, 0.3605);
+    isSimilar(result.imaginary, 0.105);
 } END_TEST
 
 START_TEST(with_flipped_positiv_parts) {
     Complex result = division(getComplex(1.2, 5.6), getComplex(3.4, 7.8));
 
-    ck_assert_double_eq(result.real, 0.6597);
-    ck_assert_double_eq(result.imaginary, 0.1337);
+    isSimilar(result.real, 0.6597);
+    isSimilar(result.imaginary, 0.1337);
 } END_TEST
 
 START_TEST(with_one_positiv_and_one_negative_part) {
     Complex result = division(getComplex(-1.2, 3.4), getComplex(-5.6, 7.8));
 
-    ck_assert_double_eq(result.real, 0.3605);
-    ck_assert_double_eq(result.imaginary, -0.105);
+    isSimilar(result.real, 0.3605);
+    isSimilar(result.imaginary, -0.105);
 } END_TEST
 
 START_TEST(with_all_negative_parts) {
     Complex result = division(getComplex(-1.2, -3.4), getComplex(-5.6, -7.8));
 
-    ck_assert_double_eq(result.real, 0.3605);
-    ck_assert_double_eq(result.imaginary, 0.105);
+    isSimilar(result.real, 0.3605);
+    isSimilar(result.imaginary, 0.105);
 } END_TEST
 
 START_TEST(with_opposite_parts_in_numbers) {
     Complex result = division(getComplex(-1.2, 3.4), getComplex(5.6, -7.8));
 
-    ck_assert_double_eq(result.real, -0.3605);
-    ck_assert_double_eq(result.imaginary, 0.105);
+    isSimilar(result.real, -0.3605);
+    isSimilar(result.imaginary, 0.105);
 } END_TEST
 
 Suite *divisionSuite() {
