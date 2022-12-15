@@ -14,13 +14,35 @@ Complex askForNumber(const char *position) {
 
         if(validComplexNumber(input)) break;
 
-        printf("\nExpected a number in the format a+bi but got \"%s\"\n\n", input);
+        printf("\nExpected a number in the format a+bi, instead got \"%s\".\n\n", input);
     }
 
     return parseComplexNumber(input);
 }
 
+char askForOperation() {
+    char input[128];
+
+    while (1) {
+        printf("What's the operation?\n");
+        scanf("%s", input);
+
+        switch (input[0]) {
+            case '+':
+            case '-':
+            case '*':
+            case '/':
+                return input[0];
+        }
+
+        printf("\nSupported operations are '+', '-', '*', and '/', instead got \"%s\".\n\n", input);
+    }
+}
+
 int main() {
     Complex first = askForNumber("first");
+    printf("\n");
+    char operation = askForOperation();
+    printf("\n");
     Complex second = askForNumber("second");
 }
