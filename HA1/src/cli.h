@@ -26,4 +26,6 @@ Operation askForOperation();
 
 Format askForFormat();
 
+char *complexToString(Format format, Complex number);
+
 #endif //C_COURSE_CLI_H
