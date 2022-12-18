@@ -31,6 +31,12 @@ START_TEST(only_postiv_imaginary_part) {
 
 END_TEST
 
+START_TEST(only_postiv_imaginary_part_i_in_front) {
+    parserTest("i5.0", 0, 5);
+}
+
+END_TEST
+
 START_TEST(only_positiv_imaginary_part_single_i) {
     parserTest("i", 0, 1);
 }
@@ -43,6 +49,12 @@ START_TEST(only_negativ_imaginary_part) {
 
 END_TEST
 
+START_TEST(only_negativ_imaginary_part_i_in_front) {
+    parserTest("-i5.0", 0, -5);
+}
+
+END_TEST
+
 START_TEST(only_negativ_imaginary_part_single_i) {
     parserTest("-i", 0, -1);
 }
@@ -51,6 +63,12 @@ END_TEST
 
 START_TEST(all_positiv_parts) {
     parserTest("5.0 + 6i", 5, 6);
+}
+
+END_TEST
+
+START_TEST(all_positiv_parts_i_in_front) {
+    parserTest("5.0 + i6", 5, 6);
 }
 
 END_TEST
@@ -69,6 +87,12 @@ END_TEST
 
 START_TEST(negativ_imaginary_part) {
     parserTest("5.0 + -6i", 5, -6);
+}
+
+END_TEST
+
+START_TEST(negativ_imaginary_part_i_in_front) {
+    parserTest("5.0 + -i6", 5, -6);
 }
 
 END_TEST
@@ -128,13 +152,17 @@ Suite *parserSuite() {
     tcase_add_test(testCase, only_postiv_real_part);
     tcase_add_test(testCase, only_negativ_real_part);
     tcase_add_test(testCase, only_postiv_imaginary_part);
+    tcase_add_test(testCase, only_postiv_imaginary_part_i_in_front);
     tcase_add_test(testCase, only_positiv_imaginary_part_single_i);
     tcase_add_test(testCase, only_negativ_imaginary_part);
+    tcase_add_test(testCase, only_negativ_imaginary_part_i_in_front);
     tcase_add_test(testCase, only_negativ_imaginary_part_single_i);
     tcase_add_test(testCase, all_positiv_parts);
+    tcase_add_test(testCase, all_positiv_parts_i_in_front);
     tcase_add_test(testCase, all_positiv_parts_single_i);
     tcase_add_test(testCase, negativ_real_part);
     tcase_add_test(testCase, negativ_imaginary_part);
+    tcase_add_test(testCase, negativ_imaginary_part_i_in_front);
     tcase_add_test(testCase, negativ_imaginary_part_single_i);
     tcase_add_test(testCase, subtrated_imaginary_part);
     tcase_add_test(testCase, subtrated_imaginary_part_single_i);

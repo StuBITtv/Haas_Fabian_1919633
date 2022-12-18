@@ -34,19 +34,33 @@ START_TEST(invalid_unexpected_point_in_number) {
 
 START_TEST(invalid_unexpected_real_part) {
     isInvalid(validComplexNumber("5 + 5"));
-} END_TEST
+}
+
+END_TEST
 
 START_TEST(invalid_unexpected_imaginary_part) {
     isInvalid(validComplexNumber("5i + 5i"));
-} END_TEST
+}
+
+END_TEST
+
+START_TEST(invalid_unexpected_imaginary_identifier) {
+    isInvalid(validComplexNumber("5i5"));
+}
+
+END_TEST
 
 START_TEST(invalid_trimmed_unexpected_real_part) {
     isInvalid(validComplexNumber("5+5"));
-} END_TEST
+}
+
+END_TEST
 
 START_TEST(invalid_trimmed_unexpected_imaginary_part) {
     isInvalid(validComplexNumber("5i+5i"));
-} END_TEST
+}
+
+END_TEST
 
 START_TEST(invalid_unexpected_imaginary_endfix) {
     isInvalid(validComplexNumber("5 + 6.0ii"));
@@ -82,14 +96,32 @@ START_TEST(valid_only_postiv_imaginary_part) {
 
 END_TEST
 
+START_TEST(valid_only_postiv_imaginary_part_i_in_front) {
+    isValid(validComplexNumber("i5.0"));
+}
+
+END_TEST
+
 START_TEST(valid_only_negativ_imaginary_part) {
     isValid(validComplexNumber("-5.0i"));
 }
 
 END_TEST
 
+START_TEST(valid_only_negativ_imaginary_part_i_in_front) {
+    isValid(validComplexNumber("-i5.0"));
+}
+
+END_TEST
+
 START_TEST(valid_all_positiv_parts) {
     isValid(validComplexNumber("5.0 + 6i"));
+}
+
+END_TEST
+
+START_TEST(valid_all_positiv_parts_i_in_front) {
+    isValid(validComplexNumber("5.0 + i6"));
 }
 
 END_TEST
@@ -108,6 +140,12 @@ END_TEST
 
 START_TEST(valid_negativ_imaginary_part) {
     isValid(validComplexNumber("5.0 + -6i"));
+}
+
+END_TEST
+
+START_TEST(valid_negativ_imaginary_part_i_in_front) {
+    isValid(validComplexNumber("5.0 + -i6"));
 }
 
 END_TEST
@@ -144,11 +182,15 @@ END_TEST
 
 START_TEST(valid_untrimmed_parts) {
     isValid(validComplexNumber("      5.0    -   6   i   "));
-} END_TEST
+}
+
+END_TEST
 
 START_TEST(valid_flipped_parts) {
     isValid(validComplexNumber("5.0i + 6"));
-} END_TEST
+}
+
+END_TEST
 
 Suite *numberValidationSuite() {
     Suite *suite = suite_create("Validate complex number");
@@ -162,6 +204,7 @@ Suite *numberValidationSuite() {
     tcase_add_test(testCase, invalid_unexpected_operation_inbetween);
     tcase_add_test(testCase, invalid_unexpected_real_part);
     tcase_add_test(testCase, invalid_unexpected_imaginary_part);
+    tcase_add_test(testCase, invalid_unexpected_imaginary_identifier);
     tcase_add_test(testCase, invalid_trimmed_unexpected_real_part);
     tcase_add_test(testCase, invalid_trimmed_unexpected_imaginary_part);
     tcase_add_test(testCase, valid_only_postiv_real_part);
@@ -169,11 +212,15 @@ Suite *numberValidationSuite() {
     tcase_add_test(testCase, valid_only_positiv_imaginary_part_single_i);
     tcase_add_test(testCase, valid_only_negativ_imaginary_part_single_i);
     tcase_add_test(testCase, valid_only_postiv_imaginary_part);
+    tcase_add_test(testCase, valid_only_postiv_imaginary_part_i_in_front);
     tcase_add_test(testCase, valid_only_negativ_imaginary_part);
+    tcase_add_test(testCase, valid_only_negativ_imaginary_part_i_in_front);
     tcase_add_test(testCase, valid_all_positiv_parts);
+    tcase_add_test(testCase, valid_all_positiv_parts_i_in_front);
     tcase_add_test(testCase, valid_all_positiv_parts_single_i);
     tcase_add_test(testCase, valid_negativ_real_part);
     tcase_add_test(testCase, valid_negativ_imaginary_part);
+    tcase_add_test(testCase, valid_negativ_imaginary_part_i_in_front);
     tcase_add_test(testCase, valid_negativ_imaginary_part_single_i);
     tcase_add_test(testCase, valid_subtrated_imaginary_part);
     tcase_add_test(testCase, valid_subtrated_imaginary_part_single_i);
