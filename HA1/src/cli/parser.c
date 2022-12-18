@@ -4,10 +4,15 @@
 
 #include <string.h>
 #include <malloc.h>
+#include <math.h>
 #include "parser.h"
 
 unsigned charIsOperation(char c) {
     return c == '+' || c == '-';
+}
+
+unsigned charIsDigit(char c) {
+    return c >= '0' && c <= '9';
 }
 
 int validComplexNumber(const char *input) {
@@ -28,7 +33,7 @@ int validComplexNumber(const char *input) {
             continue;
         }
 
-        unsigned isDigit = input[i] >= '0' && input[i] <= '9';
+        unsigned isDigit = charIsDigit(input[i]);
         digitCount += isDigit;
 
         unsigned isOperation = charIsOperation(input[i]);
@@ -53,6 +58,10 @@ int validComplexNumber(const char *input) {
             return 0;
         }
 
+        if (isImaginary && i != 0 && charIsDigit(input[i - 1]) && charIsDigit(input[i + 1])) {
+            return 0;
+        }
+
         if (hasImaginary > 1) {
             return 0;
         }
@@ -65,29 +74,45 @@ int validComplexNumber(const char *input) {
     return !hasSecondPart || hasImaginary;
 }
 
+static char *trimOfLastCharacter(const char *input) {
+    char *trimmed;
+
+    size_t length = strlen(input);
+
+    trimmed = malloc(length);
+
+    memcpy(trimmed, input, length - 1);
+    trimmed[length - 1] = '\0';
+
+    return trimmed;
+}
+
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "cert-err34-c"
 
 void setNumberPart(const char *input, Complex *number) {
-    size_t last = strlen(input) - 1;
+    const char *imaginary = strchr(input, 'i');
 
-    if (input[last] == 'i') {
-        char *trimmed = malloc(strlen(input) + 1);
-        strcpy(trimmed, input);
-
-        trimmed[last] = '\0';
-
-        if (strlen(trimmed) == 0) {
-            number->imaginary = 1;
-        } else if (strlen(trimmed) == 1 && trimmed[0] == '+') {
-            number->imaginary = 1;
-        } else if (strlen(trimmed) == 1 && trimmed[0] == '-') {
-            number->imaginary = -1;
+    if (imaginary) {
+        char *trimmed = NULL;
+        if (imaginary != input && imaginary != input + 1) {
+            trimmed = trimOfLastCharacter(input);
+            imaginary = trimmed;
         } else {
-            number->imaginary = atof(trimmed);
+            imaginary += sizeof(char);
         }
 
-        free(trimmed);
+        if (strlen(imaginary) == 0) {
+            number->imaginary = input[0] == '-' ? -1 : 1;
+        } else {
+            number->imaginary = fabs(atof(imaginary));
+
+            if (input[0] == '-') {
+                number->imaginary *= -1;
+            }
+        }
+
+        if (trimmed) free(trimmed);
     } else {
         number->real = atof(input);
     }
