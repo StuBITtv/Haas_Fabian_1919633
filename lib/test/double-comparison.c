@@ -2,7 +2,7 @@
 // Created by fhs on 13.12.2022.
 //
 
-#include <check.h>
+#include "check.h"
 #include "double-comparison.h"
 
 void isSimilar(double a, double b) {
