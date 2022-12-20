@@ -2,9 +2,10 @@
 // Created by fhs on 13.12.2022.
 //
 
-#include "../complex-getter.h"
+#include <check.h>
 #include "check-subtraction.h"
 #include "double-comparison.h"
+#include "../complex-getter.h"
 #include "../../src/complex-numbers/complex.h"
 
 START_TEST(with_all_positiv_parts) {
