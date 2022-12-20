@@ -5,8 +5,8 @@
 #include <malloc.h>
 #include "check-rectangular-form-string.h"
 #include "check-complex-string.h"
-#include "../complex-getter.h"
 #include "string-expectation.h"
+#include "../complex-getter.h"
 
 static void stringTest(Complex number, const char *format) {
     char *expected = getExpectedString(

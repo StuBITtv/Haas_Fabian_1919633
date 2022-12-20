@@ -5,7 +5,7 @@
 #ifndef C_COURSE_CHECK_COMPLEX_STRING_H
 #define C_COURSE_CHECK_COMPLEX_STRING_H
 
-#include "check.h"
+#include <check.h>
 #include "../../src/cli/cli.h"
 
 Suite *complexNumberStringSuite();

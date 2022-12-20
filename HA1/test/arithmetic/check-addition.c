@@ -3,8 +3,8 @@
 //
 
 #include "check-addition.h"
-#include "../complex-getter.h"
 #include "double-comparison.h"
+#include "../complex-getter.h"
 #include "../../src/complex-numbers/complex.h"
 
 START_TEST(with_all_positiv_parts) {
