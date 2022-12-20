@@ -5,7 +5,7 @@
 #include <malloc.h>
 #include "string-expectation.h"
 #include "check-exponential-form-string.h"
-#include "../complex-getter.h"
+#include "complex-getter.h"
 #include "../../src/cli/cli.h"
 
 #define FORMAT "%r*e^(%ti)"

@@ -4,7 +4,7 @@
 
 #include "check-division.h"
 #include "double-comparison.h"
-#include "../complex-getter.h"
+#include "complex-getter.h"
 #include "../../src/complex-numbers/complex.h"
 
 START_TEST(all_parts_with_only_real_part) {
