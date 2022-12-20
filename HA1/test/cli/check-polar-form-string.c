@@ -5,7 +5,7 @@
 #include <malloc.h>
 #include "check-polar-form-string.h"
 #include "string-expectation.h"
-#include "../complex-getter.h"
+#include "complex-getter.h"
 #include "../../src/cli/cli.h"
 
 #define FORMAT "%r*(cos(%t)+i*sin(%t)"

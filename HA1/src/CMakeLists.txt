@@ -1,0 +1,12 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 3.0.0)
+SET(PROJECT_NAME "complex-calculator")
+
+PROJECT(${PROJECT_NAME} C)
+
+ADD_SUBDIRECTORY("cli")
+ADD_SUBDIRECTORY("complex-numbers")
+
+ADD_EXECUTABLE(${PROJECT_NAME} main.c)
+
+TARGET_LINK_LIBRARIES(${PROJECT_NAME} complex-numbers calculator-cli)
+
