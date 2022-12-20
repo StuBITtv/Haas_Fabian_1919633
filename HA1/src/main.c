@@ -31,6 +31,11 @@ int main() {
             result = multiplication(first, second);
             break;
         case DIVISION:
+            if (second.real == 0 && second.imaginary == 0) {
+                printf("Cannot divide through 0.");
+                return -1;
+            }
+
             result = division(first, second);
             break;
     }
