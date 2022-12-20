@@ -22,13 +22,13 @@ ADD_EXECUTABLE(${PROJECT_NAME} ${PROJECT_SRC})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${COMPLEX_LIBRARY_NAME} ${CLI_LIBRARY_NAME})
 
 # Tests
-add_subdirectory("test/lib/check")
-
-FILE(GLOB TEST_SRC
+FILE(
+        GLOB TEST_SRC
         test/*.c test/*.h
         test/arithmetic/*.c test/arithmetic/*.h
         test/cli/*.c test/cli*.h
-        )
+)
+
 ADD_EXECUTABLE(${TEST_NAME} ${TEST_SRC})
 
-TARGET_LINK_LIBRARIES(${TEST_NAME} ${COMPLEX_LIBRARY_NAME} ${CLI_LIBRARY_NAME} check)
+TARGET_LINK_LIBRARIES(${TEST_NAME} ${COMPLEX_LIBRARY_NAME} ${CLI_LIBRARY_NAME} check test-runner)

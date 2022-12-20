@@ -5,7 +5,7 @@
 #ifndef C_COURSE_CHECK_VALIDATION_H
 #define C_COURSE_CHECK_VALIDATION_H
 
-#include "check.h"
+#include <check.h>
 
 Suite *numberValidationSuite();
 

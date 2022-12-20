@@ -2,9 +2,9 @@
 // Created by fhs on 13.12.2022.
 //
 
-#include "../complex-getter.h"
 #include "check-multiplication.h"
 #include "double-comparison.h"
+#include "../complex-getter.h"
 #include "../../src/complex-numbers/complex.h"
 
 START_TEST(with_only_real_part) {
@@ -12,7 +12,9 @@ START_TEST(with_only_real_part) {
 
     isSimilar(result.real, 6.72);
     isSimilar(result.imaginary, 9.36);
-} END_TEST
+}
+
+END_TEST
 
 START_TEST(with_only_imaginary_part) {
     Complex result = multiplication(getComplex(0, 3.4), getComplex(5.6, 7.8));

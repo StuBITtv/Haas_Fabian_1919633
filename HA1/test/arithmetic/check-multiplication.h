@@ -5,7 +5,7 @@
 #ifndef C_COURSE_CHECK_MULTIPLICATION_H
 #define C_COURSE_CHECK_MULTIPLICATION_H
 
-#include "check.h"
+#include <check.h>
 
 Suite *multiplicationSuite();
 

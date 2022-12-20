@@ -2,9 +2,9 @@
 // Created by fhs on 13.12.2022.
 //
 
-#include "../complex-getter.h"
 #include "check-division.h"
 #include "double-comparison.h"
+#include "../complex-getter.h"
 #include "../../src/complex-numbers/complex.h"
 
 START_TEST(all_parts_with_only_real_part) {
@@ -12,7 +12,9 @@ START_TEST(all_parts_with_only_real_part) {
 
     isSimilar(result.real, 0.2143);
     isSimilar(result.imaginary, 0.6071);
-} END_TEST
+}
+
+END_TEST
 
 START_TEST(all_parts_with_only_imaginary_part) {
     Complex result = division(getComplex(1.2, 3.4), getComplex(0, 7.8));
