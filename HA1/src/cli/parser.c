@@ -95,7 +95,7 @@ void setNumberPart(const char *input, Complex *number) {
 
     if (imaginary) {
         char *trimmed = NULL;
-        if (imaginary != input && imaginary != input + 1) {
+        if (imaginary != input && (imaginary != input + sizeof(char) || charIsDigit(input[0]))) {
             trimmed = trimOfLastCharacter(input);
             imaginary = trimmed;
         } else {
