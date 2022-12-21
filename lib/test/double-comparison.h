@@ -5,6 +5,6 @@
 #ifndef C_COURSE_DOUBLE_COMPARISON_H
 #define C_COURSE_DOUBLE_COMPARISON_H
 
-void isSimilar(double a, double b);
+void isSimilar(double actual, double expected);
 
 #endif //C_COURSE_DOUBLE_COMPARISON_H

@@ -5,8 +5,8 @@
 #include "check.h"
 #include "double-comparison.h"
 
-void isSimilar(double a, double b) {
-    if((fabs(a - b) > 0.00005)) {
-        ck_assert_double_eq(a, b);
+void isSimilar(double actual, double expected) {
+    if ((fabs(actual - expected) > 0.00005)) {
+        ck_assert_double_eq(actual, expected);
     }
 }

@@ -3,9 +3,14 @@
 //
 
 #include <runner.h>
+#include "check-with-derivative.h"
+#include "check-with-approximation.h"
 
 Suite **init(size_t *n) {
-    const Suite *suites[] = {};
+    const Suite *suites[] = {
+            derivativeSuite(),
+            approximationSuite()
+    };
 
     *n = sizeof(suites) / sizeof(Suite *);
 
