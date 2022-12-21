@@ -8,3 +8,4 @@ Projects are described in the `Programmentwurf` directory. [CMake](https://cmake
 used as build system. Currently implemented are:
 
 - "Complex Calculator", files are in the `HA1` directory
+- "Newton-Raphson", files are in the `HA2` directory

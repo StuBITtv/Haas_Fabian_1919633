@@ -5,7 +5,7 @@ The number are entered in the rectangular format $a+bi$.
 
 ## Building
 
-To build this project use [CMake](https://cmake.org/). Create a build directory, change into it, then run `cmake ..`
+To build this project use [CMake](https://cmake.org/). Create a build directory, change into it, then run `cmake ..`.
 
 ### Testing
 
