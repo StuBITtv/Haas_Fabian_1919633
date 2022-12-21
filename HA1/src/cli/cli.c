@@ -31,12 +31,14 @@ Operation askForOperation() {
         printf("What's the operation?\n");
         scanf("%s", input);
 
-        switch (input[0]) {
-            case '+':
-            case '-':
-            case '*':
-            case '/':
-                return input[0];
+        if (strlen(input) == 1) {
+            switch (input[0]) {
+                case '+':
+                case '-':
+                case '*':
+                case '/':
+                    return input[0];
+            }
         }
 
         printf("\nSupported operations are '+', '-', '*', and '/', instead got \"%s\".\n\n", input);
