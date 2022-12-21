@@ -33,17 +33,14 @@ int main() {
     size_t suiteCount;
     Suite **suites = init(&suiteCount);
 
-    int result = EXIT_SUCCESS;
+    size_t fails = 0;
 
     for (int i = 0; i < suiteCount; ++i) {
-        if (runSuite(suites[i]) != 0) {
-            result = EXIT_FAILURE;
-        }
-
+        fails += runSuite(suites[i]);
         printf("\n");
     }
 
     free(suites);
 
-    return result;
+    return fails ? EXIT_FAILURE : EXIT_SUCCESS;
 }
