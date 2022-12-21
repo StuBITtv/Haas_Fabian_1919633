@@ -6,65 +6,84 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
+#include <input-validation-loop.h>
 #include "cli.h"
 #include "parser.h"
 
 Complex askForNumber(const char *position) {
     char input[512];
 
-    while (1) {
-        printf("What's the %s number?\n", position);
-        scanf("%s", input);
+    size_t promptLength = snprintf(NULL, 0, "What's the %s number?", position);
+    char *prompt = malloc(promptLength + 1);
+    sprintf(prompt, "What's the %s number?", position);
 
-        if (validComplexNumber(input)) break;
+    validatedInput(
+            prompt,
+            "Expected a number in the format a+bi",
+            validComplexNumber,
+            input
+    );
 
-        printf("\nExpected a number in the format a+bi, instead got \"%s\".\n\n", input);
-    }
+    free(prompt);
 
     return parseComplexNumber(input);
+}
+
+static int operatorValidator(const char *input) {
+    if (strlen(input) == 1) {
+        switch (input[0]) {
+            case '+':
+            case '-':
+            case '*':
+            case '/':
+                return 1;
+        }
+    }
+
+    return 0;
 }
 
 Operation askForOperation() {
     char input[128];
 
-    while (1) {
-        printf("What's the operation?\n");
-        scanf("%s", input);
+    validatedInput(
+            "What's the operation",
+            "Supported operations are '+', '-', '*', and '/'",
+            operatorValidator,
+            input
+    );
 
-        if (strlen(input) == 1) {
-            switch (input[0]) {
-                case '+':
-                case '-':
-                case '*':
-                case '/':
-                    return input[0];
-            }
-        }
-
-        printf("\nSupported operations are '+', '-', '*', and '/', instead got \"%s\".\n\n", input);
-    }
+    return input[0];
 }
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "cert-err34-c"
 
+static int formatValidator(const char *input) {
+    double choice = atof(input);
+
+    if (choice - (int) choice != 0) {
+        return 0;
+    }
+
+    return choice >= FORM_RECTANGULAR && choice <= FORM_EXPONENTIAL;
+}
+
 Format askForFormat() {
     char input[128];
 
-    while (1) {
-        printf("In which format do you want to display the result?\n"
-               "[1] Rectangular: a+bi\n"
-               "[2] Exponential: r*e^(i*Theta)\n"
-               "[3]       Polar: r*(cos(Theta)+i*sin(Theta))\n"
-        );
-        scanf("%s", input);
+    validatedInput(
+            "In which format do you want to display the result?\n"
+            "[1] Rectangular: a+bi\n"
+            "[2] Exponential: r*e^(i*Theta)\n"
+            "[3]       Polar: r*(cos(Theta)+i*sin(Theta))\n",
+            "Expected a whole number between 1 and 3",
+            formatValidator,
+            input
+    );
 
-        int choice = atoi(input);
-
-        if (choice >= FORM_RECTANGULAR && choice <= FORM_EXPONENTIAL) return choice;
-
-        printf("\nExpected a whole number between 1 and 3, instead got \"%s\"\n\n", input);
-    }
+    input[1] = '\0';
+    return atoi(input);
 }
 
 #pragma clang diagnostic pop
