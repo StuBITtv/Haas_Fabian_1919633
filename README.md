@@ -14,8 +14,8 @@ Projects are described in the `Programmentwurf` directory. Currently implemented
 [CMake](https://cmake.org/) is used as build system. The steps are as follows:
 
 1. Install CMake and a working compiler.
-2. Clone this project including all of its submodules.
-3. At the project top level, create a build directory like `build`.
+2. Clone this repository including all of its submodules.
+3. At the top-level directory of this repository, create a build directory like `build`.
 4. Open a terminal and change into the build directory.
 5. From there, run `cmake ..`. Now is the time on Windows to tell CMake if you use something other than the Microsoft
    compiler. For example, if you are using the MinGW compiler, run `cmake .. -G "MinGW Makefiles"` instead.
