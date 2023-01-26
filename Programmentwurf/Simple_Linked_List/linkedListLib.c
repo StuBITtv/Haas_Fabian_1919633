@@ -1,6 +1,24 @@
 #include <stdio.h>
-#include <stdlib.h>
+#include <string.h>
 #include "linkedListLib.h"
+
+
+int numberInput(size_t maxDigits) {
+    char *buffer = malloc(maxDigits + 2);
+
+    while (1) {
+        scanf("%s", buffer);
+
+        char *numberEnd;
+        int number = strtol(buffer, &numberEnd, 10);
+
+        size_t inputLength = strlen(buffer);
+        if(numberEnd == &buffer[inputLength]) {
+            free(buffer);
+            return number;
+        }
+    }
+}
 
 listElement *addListElem(listElement *list) {
     listElement *new = malloc(sizeof(listElement));
@@ -19,7 +37,7 @@ listElement *addListElem(listElement *list) {
     scanf("%s", new->firstName);
 
     printf("Please enter age: \n");
-    scanf("%d", &(new->age));
+    new->age = numberInput(4);
 
 
     if(!list) {
