@@ -2,6 +2,14 @@
 #include <stdlib.h>
 #include "linkedListLib.h"
 
+#if defined(_WIN32) || defined(_WIN64) || defined(__CYWIN__)
+#define clear() system("cls")
+#elif defined(__unix__) || defined(__APPLE__) || defined(__MACH__)
+#define clear() system("clear")
+#else
+#error "No method known to clear screen for your target OS"
+#endif
+
 /*******************************************************
 * NAME: main.c (main) 
 *
@@ -32,8 +40,6 @@
 
 listElement *cli(listElement *list) {
     while (1) {
-        int FLAG = 1;
-
         printf("1... print list\n");
         printf("2... add element\n");
         printf("3... delete element\n");
@@ -42,8 +48,10 @@ listElement *cli(listElement *list) {
         printf("6... load list\n");
         printf("7... sort list\n");
         printf("0... quit\n");
-        scanf("%d", &FLAG);
-        system("cls"); // clear for mac/linux
+
+        int FLAG = numberInput(1);
+
+        clear();
 
         switch (FLAG) {
             case 1:
