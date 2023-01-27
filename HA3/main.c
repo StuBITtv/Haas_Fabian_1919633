@@ -85,8 +85,9 @@ listElement *cli(listElement *list) {
 }
 
 int main() {
-    listElement *list = NULL;
+    listElement *list = cli(NULL);
 
-    cli(list);
     exitFcn(list);
+
+    delList(list);
 }
