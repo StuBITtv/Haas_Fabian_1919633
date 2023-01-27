@@ -152,6 +152,6 @@ listElement *sortList(listElement *list);
 
     \param[in]  pointer to start element of current list        
 */
-void stringToLower(char *); 
+void stringToLower(char *);
 
 #endif
