@@ -26,9 +26,9 @@ typedef struct listElem listElement;
 
     \DESCRIPTION: adds new entity of listElement to current list
  
-    \param[in]  pointer to start element of current list              
+    \param[in]  pointer to list element of current list
 */
-void addListElem(listElement *);
+listElement * addListElem(listElement *list);
 
 /** 
     \FUNCTION: printList
@@ -54,7 +54,7 @@ void printList(const listElement *list);
  
     \param[in]  pointer to start element of current list              
 */
-void delListElem(listElement *);
+listElement *delListElem(listElement *list);
 
 /** 
     \FUNCTION: delList
@@ -78,11 +78,11 @@ void delList(listElement *);
 
     \DESCRIPTION: calculates the lenght of current list
  
-    \param[in]  pointer to start element of current list        
+    \param[in]  pointer to list element of current list
 
     \param[out] lenght of current list
 */
-int getLenOfList(listElement *);
+int getLenOfList(const listElement *list);
 
 /** 
     \FUNCTION: saveList
@@ -95,7 +95,7 @@ int getLenOfList(listElement *);
  
     \param[in]  pointer to start element of current list        
 */
-void saveList(listElement *);
+void saveList(const listElement *list);
 
 /** 
     \FUNCTION: loadList
@@ -108,7 +108,7 @@ void saveList(listElement *);
  
     \param[in]  pointer to start element of current list        
 */
-void loadList(listElement *);
+listElement *loadList(listElement *list);
 
 /** 
     \FUNCTION: exitFcn
@@ -134,7 +134,7 @@ void exitFcn(listElement *);
  
     \param[in]  pointer to start element of current list        
 */
-void sortList(listElement *);
+listElement *sortList(listElement *list);
 
 /** 
     \FUNCTION: stringToLower

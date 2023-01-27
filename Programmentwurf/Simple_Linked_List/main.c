@@ -30,7 +30,7 @@
 *
 **/
 
-void cli(listElement *list) {
+listElement *cli(listElement *list) {
     while (1) {
         int FLAG = 1;
 
@@ -50,25 +50,26 @@ void cli(listElement *list) {
                 printList(list);
                 break;
             case 2:
-                addListElem(list);
+                list = addListElem(list);
                 break;
             case 3:
-                delListElem(list);
+                list = delListElem(list);
                 break;
             case 4:
                 delList(list);
+                list = NULL;
                 break;
             case 5:
                 saveList(list);
                 break;
             case 6:
-                loadList(list);
+                list = loadList(list);
                 break;
             case 7:
-                sortList(list);
+                list = sortList(list);
                 break;
             case 0:
-                return;
+                return list;
             default:
                 printf("invalid choice\n");
                 break;
@@ -77,14 +78,7 @@ void cli(listElement *list) {
 }
 
 int main() {
-    listElement *list = malloc(sizeof(listElement));
-
-    if (list == NULL) {
-        printf("can't reserve storage.\n");
-        return -1;
-    }
-
-    list->nextElem = NULL;
+    listElement *list = NULL;
 
     cli(list);
     exitFcn(list);
