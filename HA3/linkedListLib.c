@@ -55,25 +55,35 @@ listElement *addListElem(listElement *list) {
     return list;
 }
 
-void printList(const listElement *list) {
-    if (list == NULL) {
-        printf("List is empty.\n\n");
-        return;
-    }
-
-    printf("current list:\n\n");
-
+static void writeListToFile(FILE *file, const listElement *list) {
     int index = 0;
     while (list) {
-        printf("%d.", ++index);
-        printf("\t last name: %s\n", list->lastName);
-        printf("\t first name: %s\n", list->firstName);
-        printf("\t age: %d\n", list->age);
+        fprintf(file, "%d.", ++index);
+        fprintf(file, "\t last name: %s\n", list->lastName);
+        fprintf(file, "\t first name: %s\n", list->firstName);
+        fprintf(file, "\t age: %d\n", list->age);
 
         list = list->nextElem;
     }
 
     printf("\n");
+}
+
+static int emptyListExit(const listElement *list) {
+    if (!list) {
+        printf("The list is empty. Nothing left to do.\n\n");
+        return -1;
+    }
+
+    return 0;
+}
+
+void printList(const listElement *list) {
+    if (emptyListExit(list)) return;
+
+    printf("current list:\n\n");
+
+    writeListToFile(stdout, list);
 }
 
 static size_t getMaximalDigits(size_t maxNumber) {
@@ -88,10 +98,7 @@ static size_t getMaximalDigits(size_t maxNumber) {
 }
 
 static int listElementPicker(listElement *list) {
-    if (!list) {
-        printf("The list is already empty.\n\n");
-        return -1;
-    }
+    if (emptyListExit(list)) return -1;
 
     printList(list);
     printf("Which element from the above do you want to delete?\n");
@@ -139,7 +146,6 @@ listElement *delListElem(listElement *list) {
     free(previous->nextElem);
 
     previous->nextElem = newNext;
-
     /* ---------------*/
 
     return list;
@@ -167,11 +173,32 @@ int getLenOfList(const listElement *list) { // we use this for save list fcn
     return counter;
 }
 
+static void fileNameInput(char *fileName) {
+    printf("What's the name of the save file?\n");
+    scanf("%s", fileName);
+}
+
 void saveList(const listElement *list) {
     /* YOUR CODE HERE */
-    /* ---------------*/
+    if (emptyListExit(list)) return;
 
-    printf("\n>> saveList fcn is tbd.\n\n");
+    char fileName[512];
+    fileNameInput(fileName);
+
+    FILE *saveFile = fopen(fileName, "w");
+
+    if (!saveFile) {
+        printf("Could write to file %s. Check you permissions.\n\n", fileName);
+        return;
+    }
+
+    printf("Writing to file %s... ", fileName);
+
+    writeListToFile(saveFile, list);
+
+    fclose(saveFile);
+    printf("Done.\n\n");
+    /* ---------------*/
 }
 
 listElement *loadList(listElement *list) {
