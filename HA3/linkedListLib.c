@@ -1,6 +1,13 @@
 #include <stdio.h>
 #include <string.h>
 #include "linkedListLib.h"
+#include "os-detection.h"
+
+#if defined(IS_WINDOWS)
+#define printDirectory() system("dir *.txt")
+#elif defined(IS_UNIX) || defined(IS_OSX)
+#define printDirectory() system("ls *.txt")
+#endif
 
 
 int numberInput(size_t maxDigits) {
@@ -18,6 +25,16 @@ int numberInput(size_t maxDigits) {
             return number;
         }
     }
+}
+
+static listElement *getLastElement(listElement *list) {
+    if (!list) return NULL;
+
+    while (list->nextElem) {
+        list = list->nextElem;
+    }
+
+    return list;
 }
 
 listElement *addListElem(listElement *list) {
@@ -44,13 +61,7 @@ listElement *addListElem(listElement *list) {
         return new;
     }
 
-    listElement *previous = list;
-
-    while (previous->nextElem != NULL) {
-        previous = previous->nextElem;      // get last elem in list
-    }
-
-    previous->nextElem = new;       // add new to the end of list
+    getLastElement(list)->nextElem = new;
 
     return list;
 }
@@ -201,14 +212,121 @@ void saveList(const listElement *list) {
     /* ---------------*/
 }
 
+static void readLine(FILE *file, char **buffer, int *bufferSize) {
+    if (!(*buffer)) {
+        *bufferSize = 100;
+        *buffer = malloc(*bufferSize);
+    }
+
+    while (1) {
+        fgets(*buffer, *bufferSize, file);
+
+        char lastChar = (*buffer)[strlen(*buffer) - 1];
+
+        if (lastChar == '\n' || feof(file)) {
+            break;
+        }
+
+        fseek(file, ((*bufferSize) - 1) * -1, SEEK_CUR);
+
+        *bufferSize = (*bufferSize) * 2 + 1;
+        *buffer = realloc(*buffer, *bufferSize);
+    }
+}
+
+static void parseLine(FILE *saveFile, char **buffer, int *bufferSize) {
+    while (!(*buffer) || !feof(saveFile) && !strchr(*buffer, ':')) {
+        readLine(saveFile, buffer, bufferSize);
+    }
+
+    if (feof(saveFile)) return;
+
+    // trim data
+    (*buffer)[strlen(*buffer) - 1] = '\0';
+
+    char *dataStart = strchr(*buffer, ':') + 1;
+    for (; *dataStart == ' ' && *dataStart != '\0'; ++dataStart);
+
+    strcpy(*buffer, dataStart);
+
+
+    char *dataEnd = strchr(*buffer, ' ');
+    if (dataEnd) *dataEnd = '\0';
+}
+
+static void copyLineBuffer(char *destination, const char *buffer) {
+    strncpy(destination, buffer, 49);
+    destination[49] = '\0';
+}
+
+static listElement *parseList(FILE *saveFile) {
+    listElement *list = NULL;
+
+    char *lineBuffer = NULL;
+    int lineBufferSize = 0;
+
+    listElement *previous = NULL;
+
+    while (1) {
+        parseLine(saveFile, &lineBuffer, &lineBufferSize);
+
+        if (feof(saveFile)) {
+            break;
+        }
+
+        listElement *new = malloc(sizeof(listElement));
+        new->nextElem = NULL;
+
+        copyLineBuffer(new->lastName, lineBuffer);
+
+        parseLine(saveFile, &lineBuffer, &lineBufferSize);
+        copyLineBuffer(new->firstName, lineBuffer);
+
+        parseLine(saveFile, &lineBuffer, &lineBufferSize);
+        new->age = atoi(lineBuffer);    // NOLINT(cert-err34-c)
+
+        if (!previous) {
+            list = new;
+            previous = new;
+        } else {
+            previous->nextElem = new;
+            previous = new;
+        }
+    }
+
+    return list;
+}
+
 listElement *loadList(listElement *list) {
     /* YOUR CODE HERE */
-    /* ---------------*/
+    printDirectory();
+    printf("\n");
 
-    printf("\n>> loadList fcn is tbd.\n\n");
+    char fileName[512];
+    fileNameInput(fileName);
 
-    printf("loading data will be append to current list...\n");
+    FILE *saveFile = fopen(fileName, "r");
+
+    if (!saveFile) {
+        printf("Could not open %s\n\n", fileName);
+        return NULL;
+    }
+
+    listElement *listEnd = getLastElement(list);
+
+    if(listEnd) {
+        list->nextElem = parseList(saveFile);
+    } else {
+        list = parseList(saveFile);
+    }
+
+    printf("Appending save file to current list...\n");
+
+    fclose(saveFile);
+
+    printf("Done.\n\nPrinting the new list...\n");
     printList(list); // show loaded list
+    /* ---------------*/
 
     return list;
 }

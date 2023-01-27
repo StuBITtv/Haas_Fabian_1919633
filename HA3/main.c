@@ -1,13 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "linkedListLib.h"
+#include "os-detection.h"
 
-#if defined(_WIN32) || defined(_WIN64) || defined(__CYWIN__)
+#if defined(IS_WINDOWS)
 #define clear() system("cls")
-#elif defined(__unix__) || defined(__APPLE__) || defined(__MACH__)
+#elif defined(IS_UNIX) || defined(IS_OSX)
 #define clear() system("clear")
-#else
-#error "No method known to clear screen for your target OS"
 #endif
 
 /*******************************************************
