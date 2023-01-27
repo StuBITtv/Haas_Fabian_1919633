@@ -332,7 +332,22 @@ listElement *loadList(listElement *list) {
 }
 
 void exitFcn(listElement *list) {
-    printf("\n>> exitFcn fcn is tbd.\n\n");
+    if (list) {
+        printf("Do you want to safe the list?\n1... Yes\n2... No\n");
+
+        while (1) {
+            int choice = numberInput(1);
+
+            if (choice == 1) {
+                saveList(list);
+                return;
+            } else if (choice == 2) {
+                return;
+            }
+
+            printf("\nWrite 1 to save the list or 2 to discard the changes\n");
+        }
+    }
 }
 
 listElement *sortList(listElement *list) {
