@@ -46,12 +46,32 @@ int getConfig(int argc, const char **argv, Config *config) {
 
 
 FILE *setupPlot(Config config) {
-    const char plotCall[] = "gnuplot -p -e \"f(x) = %s; plot '-' using 1:(f($1)) w l;\"";
+    const char plotCall[] =
+            "gnuplot -p -e \""
+            "f(x) = %s; plot '-' using 1:(f($1)) w l "
+            "title '[%.*lf <= x <= %.*lf; step size: %.*lf]    f(x)=%s';\"";
 
-    size_t callLength = snprintf(NULL, 0, plotCall, config.function);
+    size_t callLength = snprintf(
+            NULL,
+            0,
+            plotCall,
+            config.function, 3,
+            config.lower, 3,
+            config.upper, 3,
+            config.step,
+            config.function
+    );
 
     char *call = malloc(callLength + 1);
-    sprintf(call, plotCall, config.function);
+    sprintf(
+            call,
+            plotCall,
+            config.function, 3,
+            config.lower, 3,
+            config.upper, 3,
+            config.step,
+            config.function
+    );
 
     FILE *plot = popen(call, "w");
 
