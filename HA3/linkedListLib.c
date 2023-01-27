@@ -13,7 +13,7 @@ int numberInput(size_t maxDigits) {
         int number = strtol(buffer, &numberEnd, 10);
 
         size_t inputLength = strlen(buffer);
-        if(numberEnd == &buffer[inputLength]) {
+        if (numberEnd == &buffer[inputLength]) {
             free(buffer);
             return number;
         }
@@ -25,7 +25,7 @@ listElement *addListElem(listElement *list) {
     new->nextElem = NULL;
 
     if (new == NULL) {
-        printf("can't reserve storage.\n");
+        printf("can't reserve storage.\n\n");
         return NULL;
     }
 
@@ -40,7 +40,7 @@ listElement *addListElem(listElement *list) {
     new->age = numberInput(4);
 
 
-    if(!list) {
+    if (!list) {
         return new;
     }
 
@@ -57,11 +57,11 @@ listElement *addListElem(listElement *list) {
 
 void printList(const listElement *list) {
     if (list == NULL) {
-        printf("List is empty.\n");
+        printf("List is empty.\n\n");
         return;
     }
 
-    printf("\ncurrent list:\n\n");
+    printf("current list:\n\n");
 
     int index = 0;
     while (list) {
@@ -72,22 +72,88 @@ void printList(const listElement *list) {
 
         list = list->nextElem;
     }
+
+    printf("\n");
+}
+
+static size_t getMaximalDigits(size_t maxNumber) {
+    size_t digits = 1;
+
+    while (maxNumber > 10) {
+        ++digits;
+        maxNumber /= 10;
+    }
+
+    return digits;
+}
+
+static int listElementPicker(listElement *list) {
+    if (!list) {
+        printf("The list is already empty.\n\n");
+        return -1;
+    }
+
+    printList(list);
+    printf("Which element from the above do you want to delete?\n");
+
+    int listLength = getLenOfList(list);
+    int choice = numberInput(getMaximalDigits(listLength) + 40);
+
+    if (choice > listLength) {
+        printf(
+                "The last element has the number %d, but got %d. "
+                "Nothing has been deleted.\n\n",
+                listLength,
+                choice
+        );
+
+        return -1;
+    }
+
+    return choice;
 }
 
 listElement *delListElem(listElement *list) {
     /* YOUR CODE HERE */
-    /* ---------------*/
+    int choice = listElementPicker(list);
 
-    printf("\n>> delListElem fcn is tbd.\n\n");
+    if (choice == -1) return list;
+
+    if (choice == 1) {
+        listElement *next = list->nextElem;
+
+        free(list);
+
+        return next;
+    }
+
+    listElement *previous = list;
+
+    while (choice > 2) {
+        --choice;
+        previous = previous->nextElem;
+    }
+
+    listElement *newNext = previous->nextElem->nextElem;
+
+    free(previous->nextElem);
+
+    previous->nextElem = newNext;
+
+    /* ---------------*/
 
     return list;
 }
 
 void delList(listElement *list) {
     /* YOUR CODE HERE */
-    /* ---------------*/
+    while (list) {
+        listElement *previous = list;
+        list = list->nextElem;
 
-    printf("\n>> getLenOfList fcn is tbd.\n\n");
+        free(previous);
+    }
+    /* ---------------*/
 }
 
 int getLenOfList(const listElement *list) { // we use this for save list fcn
