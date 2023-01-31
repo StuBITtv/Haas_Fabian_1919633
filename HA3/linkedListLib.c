@@ -117,9 +117,9 @@ static int listElementPicker(listElement *list) {
     int listLength = getLenOfList(list);
     int choice = numberInput(getMaximalDigits(listLength) + 40);
 
-    if (choice > listLength) {
+    if (choice < 1 || choice > listLength) {
         printf(
-                "The last element has the number %d, but got %d. "
+                "Element numbers range from 1 to %d, but got %d. "
                 "Nothing has been deleted.\n\n",
                 listLength,
                 choice
