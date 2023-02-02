@@ -314,7 +314,7 @@ listElement *loadList(listElement *list) {
 
     listElement *listEnd = getLastElement(list);
 
-    if(listEnd) {
+    if (listEnd) {
         list->nextElem = parseList(saveFile);
     } else {
         list = parseList(saveFile);
@@ -350,10 +350,79 @@ void exitFcn(listElement *list) {
     }
 }
 
-listElement *sortList(listElement *list) {
-    printf("\n>>sortList fcn is tbd.\n\n");
+static listElement *halfList(listElement *list) {
+    if (!list) return NULL;
 
-    return list;
+    listElement *tortoise = list;
+    listElement *hare = list;
+
+    while (hare) {
+        if (hare->nextElem) {
+            hare = hare->nextElem->nextElem;
+            if (hare) tortoise = tortoise->nextElem;
+        } else {
+            hare = NULL;
+        }
+    }
+
+    listElement *secondHalf = tortoise->nextElem;
+    tortoise->nextElem = NULL;
+
+    return secondHalf;
+}
+
+// should return 0 if first element is to be picked or 1 for the second element
+typedef int (*ElementComparison)(const listElement *first, const listElement *second);
+
+static listElement *stepToNext(listElement **first, listElement **second, ElementComparison compare) {
+    listElement *next = NULL;
+
+    if (compare(*first, *second)) {
+        next = *first;
+        *first = (*first)->nextElem;
+    } else if (*second) {
+        next = *second;
+        *second = (*second)->nextElem;
+    }
+
+    return next;
+}
+
+static listElement *mergeSort(listElement *first, listElement *second, ElementComparison compare) {     // NOLINT(misc-no-recursion)
+    listElement *secondHalf = halfList(first);
+    if (secondHalf) first = mergeSort(first, secondHalf, compare);
+
+    secondHalf = halfList(second);
+    if (secondHalf) second = mergeSort(second, secondHalf, compare);
+
+    listElement *const head = stepToNext(&first, &second, compare);
+
+    listElement *end = head;
+    while (first && second) {
+        end->nextElem = stepToNext(&first, &second, compare);
+        end = end->nextElem;
+    }
+
+    if (first) {
+        end->nextElem = first;
+    } else if (second) {
+        end->nextElem = second;
+    }
+
+    return head;
+}
+
+static int younger(const listElement *first, const listElement *second) {
+    if (!first) return 0;
+    if (!second) return 1;
+
+    return first->age < second->age;
+}
+
+listElement *sortList(listElement *list) {
+    if(emptyListExit(list)) return NULL;
+
+    return mergeSort(list, NULL, younger);
 }
 
 void stringToLower(char *string) {
