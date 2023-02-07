@@ -2,7 +2,7 @@
 #define EULERLIB_H_
 
 #include "stdlib.h"
-/** 
+/**
     \STRUCT: SimulationHandle
  
     \AUTHOR: jannik wiessler
