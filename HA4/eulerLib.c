@@ -1,8 +1,8 @@
+#include <stdio.h>
 #include <math.h>
 #include "eulerLib.h"
 
-SimulationState massSpringDamperCalculation(SimulationState state, double duration)
-{ // mass spring damper
+SimulationState massSpringDamperCalculation(SimulationState state, double duration) { // mass spring damper
 
     double m = 1.0;  // mass of object
     double c = 5;    // spring constant
@@ -11,7 +11,7 @@ SimulationState massSpringDamperCalculation(SimulationState state, double durati
     double x = state.position;
     double v = state.velocity;
 
-    /*calc derivatives and store in state*/
+    /*calc derivatives and store in rhs*/
 
     /* YOUR CODE HERE */
     /* ---------------*/
@@ -19,33 +19,38 @@ SimulationState massSpringDamperCalculation(SimulationState state, double durati
     return state;
 }
 
-SimulationSettings getSimulationSettings(SimulationCalculation simulationCalculation)
-{
-    /*get user defined simulation time*/
-    printf("Simulation time (in s): \n");
+static double numberInput(const char *prompt) {
+    while (1) {
+        printf("%s", prompt);
 
-    /* YOUR CODE HERE */
-    /* ---------------*/
+        double input;
+        if (scanf("%lf", &input) == 1) {     // NOLINT(cert-err34-c)
+            return input;
+        }
+
+        printf("Please enter a valid number. ");
+
+        while (getchar() != '\n');  // free stdin till a new line starts
+    }
+}
+
+SimulationSettings getSimulationSettings(SimulationCalculation simulationCalculation) {
+    SimulationSettings settings;
+    settings.function = simulationCalculation;
+
+    /*get user defined simulation time*/
+    settings.duration = numberInput("Simulation duration (in s):\n");
 
     /*get user defined step size*/
-    printf("Step size (in s): \n");
-
-    /* YOUR CODE HERE */
-    /* ---------------*/
+    settings.stepSize = numberInput("Step size (in s):\n");
 
     /*get init state position*/
-    printf("position(t = 0): \n");
-
-    /* YOUR CODE HERE */
-    /* ---------------*/
+    settings.initialState.position = numberInput("position(t = 0):\n");
 
     /*get init state speed*/
-    printf("speed(t = 0): \n");
+    settings.initialState.velocity = numberInput("speed(t = 0):\n");
 
-    /* YOUR CODE HERE */
-    /* ---------------*/
-
-    return (SimulationSettings){};
+    return settings;
 }
 
 int calculateSimulation(void *data, const Plot *plot, StateToPlotWriter writeToPlot)
@@ -60,11 +65,7 @@ int calculateSimulation(void *data, const Plot *plot, StateToPlotWriter writeToP
         int dataWritten = writeToPlot(plot, i * settings->stepSize, currentState);
         if(dataWritten < 0) return dataWritten;
 
-        /*calculate currentState*/
-
-        /* YOUR CODE HERE */
-        /* ---------------*/
-
+        currentState = massSpringDamperCalculation(currentState, settings->stepSize);
     }
 
     return 0;
