@@ -18,10 +18,6 @@
 **/
 int main()
 {
-
-    SimulationHandle handle = getHandle();
-    calculateSimulation(&handle);
-    plotSimulation(&handle);
-
-    return 0;
+    SimulationSettings settings = getSimulationSettings(massSpringDamperCalculation);
+    return plotSimulationGraphs(&settings, calculateSimulation);
 }

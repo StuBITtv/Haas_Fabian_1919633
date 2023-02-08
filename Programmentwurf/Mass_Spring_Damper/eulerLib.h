@@ -1,9 +1,10 @@
 #ifndef EULERLIB_H_
 #define EULERLIB_H_
 
-#include "stdlib.h"
-/**
-    \STRUCT: SimulationHandle
+#include <stdio.h>
+
+/** 
+    \STRUCT: SimulationSettings
  
     \AUTHOR: jannik wiessler
 
@@ -28,18 +29,25 @@
 */
 
 typedef struct {
+    FILE *position;
+    FILE *velocity;
+} Plot;
+
+typedef struct {
     double position;
     double velocity;
 } SimulationState;
 
-typedef SimulationState (*SimulationCalculation)(SimulationState state);
+typedef SimulationState(*SimulationCalculation)(SimulationState state, double duration);
+typedef int (*StateToPlotWriter)(const Plot *plot, double x, SimulationState state);
+typedef int (*GraphCalculator)(void *calculationData, const Plot *plot, StateToPlotWriter addValue);
 
 typedef struct {
+    SimulationState initialState;
     SimulationCalculation function;
-    SimulationState *states;
     double stepSize;
     double duration;
-} SimulationHandle;
+} SimulationSettings;
 
 /** 
     \FUNCTION: massSpringDamperCalculation
@@ -65,13 +73,13 @@ SimulationState massSpringDamperCalculation(SimulationState state, double durati
 
     \DESCRIPTION: explicit euler function to solve first order ode-system
  
-    \param[in]  reference to SimulationHandle
+    \param[in]  reference to SimulationSettings
 
 */
-void calculateSimulation(const SimulationHandle *handle);
+int calculateSimulation(void *data, const Plot *plot, StateToPlotWriter writeToPlot);
 
 /** 
-    \FUNCTION: plotSimulation
+    \FUNCTION: plotSimulationGraphs
  
     \AUTHOR: jannik wiessler
 
@@ -79,23 +87,24 @@ void calculateSimulation(const SimulationHandle *handle);
 
     \DESCRIPTION: visualize the results of given ode-system solved by given used sim method
  
-    \param[in]  reference to SimulationHandle
+    \param[in]  reference to SimulationSettings
 
 */
-void plotSimulation(SimulationHandle*);
+
+int plotSimulationGraphs(void *calculationData, GraphCalculator calculation);
 
 /** 
-    \FUNCTION: getHandle
+    \FUNCTION: getSimulationSettings
  
     \AUTHOR: jannik wiessler
 
     \DATE: 2021-01-10
 
-    \DESCRIPTION: initialize SimulationHandle by user defined specs
+    \DESCRIPTION: initialize SimulationSettings by user defined specs
  
-    \param[in]  reference to SimulationHandle
+    \param[in]  reference to SimulationSettings
 
 */
-SimulationHandle getHandle();
+SimulationSettings getSimulationSettings(SimulationCalculation simulationCalculation);
 
 #endif

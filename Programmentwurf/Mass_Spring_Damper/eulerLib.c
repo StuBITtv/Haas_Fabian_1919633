@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <math.h>
 #include "eulerLib.h"
 
@@ -12,30 +11,16 @@ SimulationState massSpringDamperCalculation(SimulationState state, double durati
     double x = state.position;
     double v = state.velocity;
 
-    /*calc derivatives and store in rhs*/
+    /*calc derivatives and store in state*/
 
     /* YOUR CODE HERE */
     /* ---------------*/
+
+    return state;
 }
 
-SimulationHandle getHandle()
+SimulationSettings getSimulationSettings(SimulationCalculation simulationCalculation)
 {
-
-    /*num of states*/
-
-    /* YOUR CODE HERE */
-    /* ---------------*/
-
-    /*right hand site*/
-
-    /* YOUR CODE HERE */
-    /* ---------------*/
-
-    /*reserve storage for init state vec*/
-
-    /* YOUR CODE HERE */
-    /* ---------------*/
-
     /*get user defined simulation time*/
     printf("Simulation time (in s): \n");
 
@@ -60,40 +45,74 @@ SimulationHandle getHandle()
     /* YOUR CODE HERE */
     /* ---------------*/
 
-    /*reserve storage for states and derivatives*/
-
-    /* YOUR CODE HERE */
-    /* ---------------*/
-
-    /*init states and derivatives with zero*/
-
-    /* YOUR CODE HERE */
-    /* ---------------*/
+    return (SimulationSettings){};
 }
 
-void calculateSimulation(const SimulationHandle *handle)
+int calculateSimulation(void *data, const Plot *plot, StateToPlotWriter writeToPlot)
 { // this is called only once
-    int integratorSteps = (int)ceil(handle->duration / handle->stepSize);
+    SimulationSettings *settings = data;
+    int timeStepCount = (int)ceil(settings->duration / settings->stepSize);
 
-    for (int i = 0; i < integratorSteps; i++)
+    SimulationState currentState = settings->initialState;
+
+    for (int i = 0; i < timeStepCount; ++i)
     {
-        /*get derivatives*/
+        int dataWritten = writeToPlot(plot, i * settings->stepSize, currentState);
+        if(dataWritten < 0) return dataWritten;
+
+        /*calculate currentState*/
 
         /* YOUR CODE HERE */
         /* ---------------*/
+
+    }
+
+    return 0;
+}
+
+static int writeToPlot(const Plot *plot, double x, SimulationState state) {
+    const int positionWritten = fprintf(plot->position, "%lf %lf\n", x, state.position);
+    if(positionWritten < 0) return positionWritten;
+
+    const int velocityWritten = fprintf(plot->velocity, "%lf %lf\n", x, state.velocity);
+
+    return velocityWritten < 0 ? velocityWritten : velocityWritten + positionWritten;
+}
+
+static void closePlotFile(FILE **file) {
+    if(file && *file) {
+        fclose(*file);
+        *file = NULL;
     }
 }
 
-void plotSimulation(SimulationHandle *)
+static void closePlot(Plot *plot) {
+    closePlotFile(&plot->position);
+    closePlotFile(&plot->velocity);
+}
+
+int plotSimulationGraphs(void *calculationData, GraphCalculator calculation)
 {
+    Plot plot = {tmpfile(), tmpfile()};
 
-    /*print data to text file*/
+    if(!plot.position || !plot.velocity) {
+        fprintf(stderr, "Could not create temporary files necessary");
+        closePlot(&plot);
+        return -1;
+    }
 
-    /* YOUR CODE HERE */
-    /* ---------------*/
+    if(calculation) {
+        if((*calculation)(calculationData, &plot, writeToPlot) < 0) {
+            fprintf(stderr, "Could not calculate whole simulation, result might be truncated");
+        }
+    }
 
     /*call gnuplot*/
 
     /* YOUR CODE HERE */
     /* ---------------*/
+
+    closePlot(&plot);
+
+    return 0;
 }
