@@ -12,12 +12,12 @@ SimulationState massSpringDamperCalculation(SimulationState state, double durati
     double x = state.position;
     double v = state.velocity;
 
-    /*calc derivatives and store in rhs*/
+    double acceleration = -1 * (d / m * v + c / m * x);
 
-    /* YOUR CODE HERE */
-    /* ---------------*/
-
-    return state;
+    return (SimulationState) {
+            state.position + state.velocity * duration,
+            state.velocity + acceleration * duration,
+    };
 }
 
 static double numberInput(const char *prompt) {
