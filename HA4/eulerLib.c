@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include "eulerLib.h"
 
-SimulationState massSpringDamperCalculation(SimulationState state, double duration) { // mass spring damper
+SimulationState massSpringDamperCalculation(SimulationState state, double duration) {
 
     double m = 1.0;  // mass of object
     double c = 5;    // spring constant
@@ -54,7 +54,7 @@ SimulationSettings getSimulationSettings(SimulationCalculation simulationCalcula
     return settings;
 }
 
-int calculateSimulation(void *data, const Plot *plot, StateToPlotWriter writeToPlot) { // this is called only once
+int calculateSimulation(void *data, const Plot *plot, StateToPlotWriter writeToPlot) {
     SimulationSettings *settings = data;
     int timeStepCount = (int) ceil(settings->duration / settings->stepSize);
 
