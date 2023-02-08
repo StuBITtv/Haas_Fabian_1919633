@@ -1,4 +1,5 @@
 #include <math.h>
+#include <stdlib.h>
 #include "eulerLib.h"
 
 SimulationState massSpringDamperCalculation(SimulationState state, double duration) { // mass spring damper
@@ -52,17 +53,15 @@ SimulationSettings getHandle(SimulationCalculation simulationCalculation) {
     return settings;
 }
 
-int calculateSimulation(void *data, const Plot *plot, StateToPlotWriter writeToPlot)
-{ // this is called only once
+int calculateSimulation(void *data, const Plot *plot, StateToPlotWriter writeToPlot) { // this is called only once
     SimulationSettings *settings = data;
-    int timeStepCount = (int)ceil(settings->duration / settings->stepSize);
+    int timeStepCount = (int) ceil(settings->duration / settings->stepSize);
 
     SimulationState currentState = settings->initialState;
 
-    for (int i = 0; i < timeStepCount; ++i)
-    {
+    for (int i = 0; i < timeStepCount; ++i) {
         int dataWritten = writeToPlot(plot, i * settings->stepSize, currentState);
-        if(dataWritten < 0) return dataWritten;
+        if (dataWritten < 0) return dataWritten;
 
         currentState = massSpringDamperCalculation(currentState, settings->stepSize);
     }
@@ -72,7 +71,7 @@ int calculateSimulation(void *data, const Plot *plot, StateToPlotWriter writeToP
 
 static int writeToPlot(const Plot *plot, double x, SimulationState state) {
     const int positionWritten = fprintf(plot->position, "%lf %lf\n", x, state.position);
-    if(positionWritten < 0) return positionWritten;
+    if (positionWritten < 0) return positionWritten;
 
     const int velocityWritten = fprintf(plot->velocity, "%lf %lf\n", x, state.velocity);
 
@@ -80,7 +79,7 @@ static int writeToPlot(const Plot *plot, double x, SimulationState state) {
 }
 
 static void closePlotFile(FILE **file) {
-    if(file && *file) {
+    if (file && *file) {
         fclose(*file);
         *file = NULL;
     }
@@ -91,28 +90,77 @@ static void closePlot(Plot *plot) {
     closePlotFile(&plot->velocity);
 }
 
-int plotSimulationGraphs(void *calculationData, GraphCalculator calculation)
-{
-    Plot plot = {tmpfile(), tmpfile()};
+static int submitPlotToPlotter(FILE *plotter, FILE *data) {
+    while (1) {
+        int character = fgetc(data);
 
-    if(!plot.position || !plot.velocity) {
-        fprintf(stderr, "Could not create temporary files necessary");
-        closePlot(&plot);
+        if (feof(data)) {
+            return 0;
+        }
+
+        if (fputc(character, plotter) != character) return -1;
+    }
+}
+
+static int submitPlot(FILE *plotter, const Plot *plot) {
+    rewind(plot->position);
+    rewind(plot->velocity);
+
+    if (submitPlotToPlotter(plotter, plot->position) < 0) {
+        fprintf(stderr, "Could not submit all position states to plotter.");
         return -1;
     }
 
-    if(calculation) {
-        if((*calculation)(calculationData, &plot, writeToPlot) < 0) {
-            fprintf(stderr, "Could not calculate whole simulation, result might be truncated");
+    fprintf(plotter, "e\n");
+
+    if (submitPlotToPlotter(plotter, plot->velocity) < 0) {
+        fprintf(stderr, "Could not submit all velocity states to plotter.");
+        return -1;
+    }
+
+    fprintf(plotter, "e\n");
+
+    return 0;
+}
+
+static int errorExit(FILE *plotter, Plot *plot, const char *message) {
+    fprintf(stderr, "%s", message);
+
+    if (plotter) pclose(plotter);
+    if (plot) closePlot(plot);
+
+    return EXIT_FAILURE;
+}
+
+int plotSimulationGraphs(void *calculationData, GraphCalculator calculation) {
+    Plot plot = {tmpfile(), tmpfile()};
+
+    if (!plot.position || !plot.velocity) {
+        return errorExit(NULL, &plot, "Could not create temporary files necessary. Check your permissions.");
+    }
+
+    if (calculation) {
+        if ((*calculation)(calculationData, &plot, writeToPlot) < 0) {
+            fprintf(stderr, "Could not calculate whole simulation, result might be truncated.");
         }
     }
 
-    /*call gnuplot*/
+    FILE *plotter = popen(
+            "gnuplot -p -e \""
+            "plot '-' using 1:2 w l title 'Position', "
+            "     ''  using 1:2 w l title 'Velocity';"
+            "\"",
+            "w"
+    );
 
-    /* YOUR CODE HERE */
-    /* ---------------*/
+    if (!plotter) {
+        return errorExit(plotter, &plot, "Could not start plotter (gnuplot).");
+    }
 
+    int plottingExitCode = submitPlot(plotter, &plot);
+
+    pclose(plotter);
     closePlot(&plot);
 
-    return 0;
+    return plottingExitCode;
 }
