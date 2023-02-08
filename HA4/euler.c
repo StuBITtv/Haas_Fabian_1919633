@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
-#include "eulerLib.h"
+#include "euler.h"
 
 SimulationState massSpringDamperCalculation(SimulationState state, double duration) {
 

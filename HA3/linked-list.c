@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include "linkedListLib.h"
+#include "linked-list.h"
 #include "os-detection.h"
 
 #if defined(IS_WINDOWS)

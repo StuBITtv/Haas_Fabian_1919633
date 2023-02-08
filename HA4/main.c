@@ -1,4 +1,4 @@
-#include "eulerLib.h"
+#include "euler.h"
 
 int main() {
     SimulationSettings settings = getSimulationSettings(massSpringDamperCalculation);
