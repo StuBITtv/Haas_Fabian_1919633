@@ -9,6 +9,7 @@ Projects are described in the `Programmentwurf` directory. Currently implemented
 - "Complex Calculator", files are in the `HA1` directory
 - "Newton-Raphson", files are in the `HA2` directory
 - "Simple linked list", files are in the `HA3` directory
+- "Mass-Spring-Damper", files are in the `HA4` directory
 
 ## Building
 
