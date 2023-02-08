@@ -1,4 +1,5 @@
 #include "eulerLib.h"
+
 /*******************************************************
 * NAME: main.c (main) 
 *
@@ -16,8 +17,7 @@
 *   >> Practice of explicit euler method
 *
 **/
-int main()
-{
+int main() {
     SimulationSettings settings = getSimulationSettings(massSpringDamperCalculation);
     return plotSimulationGraphs(&settings, calculateSimulation);
 }
