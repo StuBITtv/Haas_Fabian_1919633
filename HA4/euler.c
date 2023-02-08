@@ -56,7 +56,7 @@ SimulationSettings getSimulationSettings(SimulationCalculation simulationCalcula
 
 int calculateSimulation(void *data, const Plot *plot, StateToPlotWriter writeToPlot) {
     SimulationSettings *settings = data;
-    int timeStepCount = (int) ceil(settings->duration / settings->stepSize);
+    int timeStepCount = ceil(settings->duration / settings->stepSize);
 
     SimulationState currentState = settings->initialState;
 
